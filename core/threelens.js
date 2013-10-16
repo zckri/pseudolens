@@ -32,7 +32,7 @@ THREEx.SsLensFlare	= function(renderer, colorRenderTarget, lensRenderTarget){
 	
 	// FeatureGenerationShader
 	var effect	= new THREE.ShaderPass(THREEx.SsLensFlare.FeatureGenerationShader)
-	effect.uniforms['tLensColor' ].value	= THREE.ImageUtils.loadTexture( "../images/lenscolor.png" )
+	effect.uniforms['tLensColor' ].value	= THREE.ImageUtils.loadTexture( "images/lenscolor.png" )
 	effect.uniforms['textureSize' ].value.set(lensRenderTarget.width, lensRenderTarget.height)
 	composer.addPass( effect )
 
