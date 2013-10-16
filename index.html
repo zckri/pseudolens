@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>Pseudolens shader</title>
+
+		<script type="text/javascript" src="core/three.min.js"></script>
+
+		<script type="text/javascript" src="core/controls/FirstPersonControls.js"></script>
+
+		<script type="text/javascript" src="core/shaders/CopyShader.js"></script>
+
+		<script type="text/javascript" src="core/shaders/ConvolutionShader.js"></script>
+		<script type="text/javascript" src="core/shaders/FXAAShader.js"></script>
+		<script type="text/javascript" src="core/shaders/FilmShader.js"></script>
+		<script type="text/javascript" src="core/shaders/BlendShader.js"></script>
+		<script type="text/javascript" src="core/shaders/RGBShiftShader.js"></script>
+		<script type="text/javascript" src="core/shaders/HorizontalBlurShader.js"></script>
+		<script type="text/javascript" src="core/shaders/VerticalBlurShader.js"></script>
+		<script type="text/javascript" src="core/postprocessing/EffectComposer.js"></script>
+		<script type="text/javascript" src="core/postprocessing/MaskPass.js"></script>
+		<script type="text/javascript" src="core/postprocessing/RenderPass.js"></script>
+		<script type="text/javascript" src="core/postprocessing/BloomPass.js"></script>
+		<script type="text/javascript" src="core/postprocessing/ShaderPass.js"></script>
+		<script type="text/javascript" src="core/postprocessing/FilmPass.js"></script>
+		<script type="text/javascript" src="core/postprocessing/TexturePass.js"></script>
+		<script type="text/javascript" src="core/threelens.js"></script>
+		<script type="text/javascript" src="app/App.js?version=1"></script>
+
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<a style="position:fixed; left: 5px; top: 5px; background: #333; padding: 3px; z-index:999; font: normal 12px Arial; text-decoration: none; color: #fff; border: solid 1px #888;"
+			href="javascript:App.useComposer = !App.useComposer">postprocessing on/off</a>
+
+		<script>
+			(function(){
+			App.start({ useComposer: true, filmPass: true, rgbPass: true, bloomPass: true });
+
+			App.loadEnvironment();
+
+			App.add(new THREE.AmbientLight(0));
+
+			var light = new THREE.PointLight(0x3040ff, 1, 350);
+			light.position = new THREE.Vector3(120,130,-100);
+			light.castShadow = true;
+
+			App.add(light);
+			loader = new THREE.JSONLoader();
+			loader.load( "models/soyuz.js", function( geometry, materials ) {
+        		mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ));
+       			mesh.scale.set( 100, 100, 100 );
+       			mesh.position = new THREE.Vector3(100,0,350);
+       			mesh.rotation.x+=.5;
+       			App.camera.position.y = 150;
+
+        		
+        		
+        		App.add(mesh);
+       
+			
+        		App.mainMesh = mesh;
+        		App.dirlight.target.position = App.mainMesh.position;
+    		} );
+			x=0;
+			App.onAnimate = function(){
+				//App.mainMesh.rotation.y+=.001;
+				App.skyBox.position = App.camera.position;
+				App.skyBox.rotation.y+=0.0005;
+				App.sun.position.x=(10+950*Math.sin(x));
+				App.sun.position.z=(10+950*Math.cos(x));
+				App.mainMesh.rotation.y-=0.01;
+				x+=0.001;
+
+				
+
+				//this.rgbShift.uniforms['amount'].value = 1/(Math.floor((Math.random()*10)+1)*50);
+			}
+
+			})();
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.controls {
+	display: block;
+	position: fixed;
+	z-index:999;
+	background: #999;
+	padding: 10px;
+	opacity:0.9;
+}
